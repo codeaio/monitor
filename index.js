@@ -38,6 +38,15 @@ io.on('connection', (socket) => {
         worker.stderr.on('data', (data) => {
             io.emit('worker', data.toString());
         })
+
+        socket.on('stop', () => {
+            frontpage.kill();
+            client.kill();
+            api.kill();
+            worker.kill();
+
+            io.emit('stopped', '');
+        })
     })
 })
 
